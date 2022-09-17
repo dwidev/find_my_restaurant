@@ -30,6 +30,30 @@ ThemeData get baseTheme {
       displayColor: darkColor,
     ),
     iconTheme: const IconThemeData(size: 15, color: primaryColor),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all(0),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all(EdgeInsets.zero),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        minimumSize: MaterialStateProperty.all(const Size(50, 30)),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: lightColor.withOpacity(0.5),
+      contentPadding: const EdgeInsets.all(10),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: BorderSide.none,
+      ),
+      hintStyle: TextStyle(
+        color: darkColor.withOpacity(0.5),
+      ),
+    ),
   );
 }
 

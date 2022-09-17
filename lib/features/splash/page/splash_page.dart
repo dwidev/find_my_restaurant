@@ -1,5 +1,5 @@
 import '../../../core/core.dart';
-import '../../restaurant/pages/catalog_restaurant.dart';
+import '../../restaurant/pages/catalog_restaurant_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -12,9 +12,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const CatalogRestaurantPage()),
-      );
+      context.pushReplacement(page: const CatalogRestaurantPage());
     });
     super.initState();
   }
@@ -29,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset("assets/app_icon.png", height: 50),
+            Image.asset(appIcon, height: 50),
             const SizedBox(height: 10),
             Text(
               "Find My Restaurant",

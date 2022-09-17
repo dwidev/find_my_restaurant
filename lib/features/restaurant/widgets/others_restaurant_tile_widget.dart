@@ -25,7 +25,7 @@ class OthersRestaurantTileWidget extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                restaurantModel.pictureId,
+                "$mediumResolution${restaurantModel.pictureId}",
               ),
             ),
           ),

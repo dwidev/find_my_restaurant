@@ -26,4 +26,18 @@ extension ContextExt on BuildContext {
   double get heightSize {
     return mediaQuery.size.height;
   }
+
+  // --- Navigator ---
+
+  /// for push
+  Future<void> push({required Widget page}) {
+    return Navigator.push(this, MaterialPageRoute(builder: (context) => page));
+  }
+
+  Future<void> pushReplacement({required Widget page}) {
+    return Navigator.pushReplacement(
+      this,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
 }

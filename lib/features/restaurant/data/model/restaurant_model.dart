@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'customer_review_model.dart';
 import 'menus_model.dart';
 
 class RestaurantModel {
@@ -10,8 +11,9 @@ class RestaurantModel {
     required this.pictureId,
     required this.city,
     required this.rating,
-    required this.isMostLiked,
+    required this.isFamous,
     required this.menus,
+    required this.customerReviews,
   });
 
   final String id;
@@ -20,8 +22,9 @@ class RestaurantModel {
   final String pictureId;
   final String city;
   final double rating;
-  final bool isMostLiked;
-  final MenuModel menus;
+  final bool isFamous;
+  final MenuModel? menus;
+  final List<CustomerReviewModel> customerReviews;
 
   Map<String, dynamic> toMap() {
     return {
@@ -31,8 +34,9 @@ class RestaurantModel {
       'pictureId': pictureId,
       'city': city,
       'rating': rating,
-      'isMostLiked': isMostLiked,
-      'menus': menus.toMap(),
+      'isFamous': isFamous,
+      'menus': menus?.toMap(),
+      'customerReviews': customerReviews.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -44,8 +48,12 @@ class RestaurantModel {
       pictureId: map['pictureId'] ?? '',
       city: map['city'] ?? '',
       rating: map['rating']?.toDouble() ?? 0.0,
-      isMostLiked: map['isMostLiked'] ?? false,
-      menus: MenuModel.fromMap(map['menus']),
+      isFamous: map['rating']?.toDouble() > 4,
+      menus: map['menus'] != null ? MenuModel.fromMap(map['menus']) : null,
+      customerReviews: map['customerReviews'] != null
+          ? List<CustomerReviewModel>.from((map['customerReviews'] as List)
+              .map((x) => CustomerReviewModel.fromMap(x)))
+          : [],
     );
   }
 

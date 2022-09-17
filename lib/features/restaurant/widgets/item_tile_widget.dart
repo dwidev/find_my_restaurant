@@ -4,10 +4,12 @@ import '../data/model/restaurant_model.dart';
 class RestaurantTileWidget extends StatelessWidget {
   const RestaurantTileWidget({
     Key? key,
+    required this.heroTag,
     required this.restaurantModel,
     required this.onPressed,
   }) : super(key: key);
 
+  final String heroTag;
   final RestaurantModel restaurantModel;
   final Function(String restroId) onPressed;
 
@@ -27,7 +29,7 @@ class RestaurantTileWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
-              tag: "list-tile-${restaurantModel.id}",
+              tag: heroTag,
               child: Container(
                 width: 100,
                 height: 80,
@@ -36,7 +38,8 @@ class RestaurantTileWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(restaurantModel.pictureId),
+                    image: NetworkImage(
+                        "https://restaurant-api.dicoding.dev/images/small/${restaurantModel.pictureId}"),
                   ),
                 ),
               ),
@@ -56,9 +59,9 @@ class RestaurantTileWidget extends StatelessWidget {
                         ),
                         overflow: TextOverflow.clip,
                       ),
-                      if (restaurantModel.isMostLiked)
+                      if (restaurantModel.isFamous)
                         const RestaurantBadgeWidget(
-                          text: "most liked",
+                          text: "famous",
                         )
                     ],
                   ),

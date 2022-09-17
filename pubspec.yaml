@@ -40,6 +40,12 @@ dependencies:
   # google font
   google_fonts: ^3.0.1
 
+  # state management
+  provider: ^6.0.3
+
+  # http client
+  dio: ^4.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

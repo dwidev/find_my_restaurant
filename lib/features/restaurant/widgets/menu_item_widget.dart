@@ -11,12 +11,13 @@ class MenuItemWidget extends StatelessWidget {
   final MenuItemModel menuItemModel;
   final String backgroundImage;
 
-  static const double height = 80;
+  static const double height = 65;
+  static const double width = 100;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
+      width: width,
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -64,15 +65,7 @@ class MenuItemWidget extends StatelessWidget {
                   menuItemModel.name,
                   style: context.textTheme.subtitle1?.copyWith(
                     color: Colors.white,
-                  ),
-                  textAlign: TextAlign.end,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  menuItemModel.price,
-                  style: context.textTheme.caption?.copyWith(
-                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.end,
                   maxLines: 2,
