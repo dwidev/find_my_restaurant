@@ -152,6 +152,7 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage> {
                           page: DetailRestaurantPage(
                             restoId: restaurantModel.id,
                             heroTag: heroTag,
+                            distance: restaurantModel.distance,
                           ),
                         );
                       },

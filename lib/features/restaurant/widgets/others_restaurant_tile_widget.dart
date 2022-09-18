@@ -79,7 +79,7 @@ class OthersRestaurantTileWidget extends StatelessWidget {
                         const Icon(Icons.location_on),
                         Flexible(
                           child: Text(
-                            "${restaurantModel.city}, 15km",
+                            "${restaurantModel.city}, ${restaurantModel.distance}",
                             style: context.textTheme.caption?.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,

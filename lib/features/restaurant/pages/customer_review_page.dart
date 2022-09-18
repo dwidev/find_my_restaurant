@@ -1,19 +1,27 @@
+import 'package:find_my_restaurant/features/restaurant/data/model/restaurant_model.dart';
+
 import '../../../core/core.dart';
 import '../data/model/customer_review_model.dart';
 
 class CustomerReviewPage extends StatelessWidget {
   const CustomerReviewPage({
     Key? key,
+    required this.restaurantModel,
     required this.reviews,
   }) : super(key: key);
 
+  final RestaurantModel restaurantModel;
   final List<CustomerReviewModel> reviews;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Reviews"),
+        title: Text(
+          "Reviews - ${restaurantModel.name}",
+          overflow: TextOverflow.fade,
+          maxLines: 5,
+        ),
       ),
       body: ListView.builder(
         padding: EdgeInsets.zero,

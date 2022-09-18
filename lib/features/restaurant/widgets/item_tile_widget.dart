@@ -71,7 +71,7 @@ class RestaurantTileWidget extends StatelessWidget {
                     children: [
                       const Icon(Icons.location_on),
                       Text(
-                        "${restaurantModel.city}, 15km",
+                        "${restaurantModel.city}, ${restaurantModel.distance}",
                         style: context.textTheme.subtitle1?.copyWith(),
                       ),
                     ],

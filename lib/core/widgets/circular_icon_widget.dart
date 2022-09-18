@@ -1,23 +1,24 @@
-import 'package:flutter/cupertino.dart';
-
 import '../core.dart';
 
-class BackIconWidget extends StatelessWidget {
-  const BackIconWidget({
+class CircileIconWidget extends StatelessWidget {
+  const CircileIconWidget({
     Key? key,
+    this.icon,
+    this.iconWithProperty,
+    required this.onPressed,
   }) : super(key: key);
+
+  static const double size = 30;
+
+  final Icon? iconWithProperty;
+  final IconData? icon;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-      },
+      onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.only(
-          top: context.mediaQuery.padding.top + 15,
-          left: 15,
-        ),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -30,10 +31,11 @@ class BackIconWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: const Icon(
-          CupertinoIcons.back,
-          size: 30,
-        ),
+        child: iconWithProperty ??
+            Icon(
+              icon,
+              size: size,
+            ),
       ),
     );
   }

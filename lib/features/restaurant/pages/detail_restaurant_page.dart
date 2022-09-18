@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/core.dart';
@@ -17,10 +18,12 @@ class DetailRestaurantPage extends StatelessWidget {
     Key? key,
     required this.restoId,
     required this.heroTag,
+    required this.distance,
   }) : super(key: key);
 
   final String restoId;
   final String heroTag;
+  final String distance;
 
   List<Widget> descLoadingWidget(BuildContext context) {
     return [
@@ -126,7 +129,40 @@ class DetailRestaurantPage extends StatelessWidget {
                       ),
                     ),
                   },
-                  const BackIconWidget(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: context.mediaQuery.padding.top + 15,
+                          left: 15,
+                        ),
+                        child: CircileIconWidget(
+                          icon: CupertinoIcons.back,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      if (isSuccess)
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: context.mediaQuery.padding.top + 15,
+                            right: 15,
+                          ),
+                          child: CircileIconWidget(
+                            onPressed: () {},
+                            iconWithProperty: Icon(
+                              true
+                                  ? CupertinoIcons.heart_fill
+                                  : CupertinoIcons.heart,
+                              color: accentColor,
+                              size: CircileIconWidget.size,
+                            ),
+                          ),
+                        ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -182,7 +218,7 @@ class DetailRestaurantPage extends StatelessWidget {
                                 children: [
                                   const Icon(Icons.location_on),
                                   Text(
-                                    "${resto?.city}, 15km",
+                                    "${resto?.city}, $distance",
                                     style: context.textTheme.subtitle1,
                                     overflow: TextOverflow.clip,
                                   ),
@@ -202,8 +238,10 @@ class DetailRestaurantPage extends StatelessWidget {
                                 TextButton(
                                   onPressed: () {
                                     context.push(
-                                      page:
-                                          CustomerReviewPage(reviews: reviews),
+                                      page: CustomerReviewPage(
+                                        restaurantModel: resto!,
+                                        reviews: reviews,
+                                      ),
                                     );
                                   },
                                   child: Text(
@@ -343,6 +381,7 @@ class DetailRestaurantPage extends StatelessWidget {
 
                             context.pushReplacement(
                               page: DetailRestaurantPage(
+                                distance: othersRestaurant.distance,
                                 restoId: restoId,
                                 heroTag: "others-detail-${othersRestaurant.id}",
                               ),
