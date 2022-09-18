@@ -10,5 +10,5 @@ export 'theme/base_theme.dart';
 export 'widgets/error_widget.dart';
 export 'widgets/loading_effect_animation_widget.dart';
 export 'widgets/restaurant_badge_widget.dart';
-export 'widgets/back_icon_widget.dart';
+export 'widgets/circular_icon_widget.dart';
 export 'widgets/review_widget.dart';
