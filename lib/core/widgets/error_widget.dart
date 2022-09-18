@@ -5,12 +5,14 @@ import '../services/http_failure.dart';
 class RestoErrorWidget extends StatelessWidget {
   const RestoErrorWidget({
     Key? key,
-    required this.failure,
-    required this.onRetry,
+    this.failure,
+    this.onRetry,
+    this.description,
   }) : super(key: key);
 
   final Failure? failure;
-  final VoidCallback onRetry;
+  final VoidCallback? onRetry;
+  final String? description;
 
   String _getErrorIcon() {
     if (failure is InternetConnectionFailure) {
@@ -36,18 +38,20 @@ class RestoErrorWidget extends StatelessWidget {
           SizedBox(
             width: context.widthSize / 1.5,
             child: Text(
-              failure?.message ?? "-",
+              description ?? failure?.message ?? "-",
               style: context.textTheme.caption?.copyWith(
                 fontSize: 15,
               ),
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: onRetry,
-            child: const Text("Coba lagi"),
-          ),
+          if (onRetry != null) ...{
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: onRetry,
+              child: const Text("Coba lagi"),
+            ),
+          }
         ],
       ),
     );

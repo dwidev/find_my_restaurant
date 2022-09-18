@@ -1,3 +1,4 @@
+import 'package:find_my_restaurant/core/core.dart';
 import 'package:flutter/material.dart';
 
 /// extension for simply property of context aplication
@@ -39,5 +40,24 @@ extension ContextExt on BuildContext {
       this,
       MaterialPageRoute(builder: (context) => page),
     );
+  }
+
+  /// for pop
+  void pop() => Navigator.pop(this);
+
+  // ---- shackbar ----
+  Future<void> showSnackbar(String message) async {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: textTheme.bodyText1?.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      backgroundColor: secondaryColor,
+    );
+
+    ScaffoldMessenger.of(this).showSnackBar(snackBar);
   }
 }

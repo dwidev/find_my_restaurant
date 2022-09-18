@@ -48,6 +48,8 @@ class DetailRestaurantPage extends StatelessWidget {
     ];
   }
 
+  void _onFavorite(BuildContext context) async {}
+
   @override
   Widget build(BuildContext context) {
     final isLoading = context.select<DetailRestoProvider, bool>(
@@ -151,9 +153,11 @@ class DetailRestaurantPage extends StatelessWidget {
                             right: 15,
                           ),
                           child: CircileIconWidget(
-                            onPressed: () {},
+                            onPressed: () {
+                              _onFavorite(context);
+                            },
                             iconWithProperty: Icon(
-                              true
+                              false
                                   ? CupertinoIcons.heart_fill
                                   : CupertinoIcons.heart,
                               color: accentColor,

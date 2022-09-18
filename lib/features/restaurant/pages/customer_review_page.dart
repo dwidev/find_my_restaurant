@@ -22,6 +22,12 @@ class CustomerReviewPage extends StatelessWidget {
           overflow: TextOverflow.fade,
           maxLines: 5,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.add),
+          ),
+        ],
       ),
       body: ListView.builder(
         padding: EdgeInsets.zero,
