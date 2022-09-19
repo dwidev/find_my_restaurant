@@ -42,6 +42,9 @@ dependencies:
 
   # state management
   provider: ^6.0.3
+  
+  #shared preferance
+  shared_preferences: ^2.0.15
 
   # http client
   dio: ^4.0.6

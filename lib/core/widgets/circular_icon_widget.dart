@@ -7,6 +7,7 @@ class CircileIconWidget extends StatelessWidget {
     this.iconWithProperty,
     required this.onPressed,
     this.isShadow = true,
+    this.shadow,
   }) : super(key: key);
 
   static const double size = 30;
@@ -15,6 +16,7 @@ class CircileIconWidget extends StatelessWidget {
   final IconData? icon;
   final VoidCallback onPressed;
   final bool isShadow;
+  final BoxShadow? shadow;
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +29,21 @@ class CircileIconWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
           boxShadow: [
             if (isShadow)
-              BoxShadow(
-                color: darkColor.withOpacity(0.1),
-                blurRadius: 5,
-                spreadRadius: 1,
-              ),
+              shadow ??
+                  BoxShadow(
+                    color: darkColor.withOpacity(0.1),
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                  ),
           ],
         ),
-        child: iconWithProperty ??
-            Icon(
-              icon,
-              size: size,
-            ),
+        child: Center(
+          child: iconWithProperty ??
+              Icon(
+                icon,
+                size: size,
+              ),
+        ),
       ),
     );
   }

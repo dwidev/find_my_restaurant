@@ -1,7 +1,8 @@
-import 'package:find_my_restaurant/features/user/widget/no_session_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/core.dart';
+import '../../user/providers/user_provider.dart';
+import '../../user/widget/no_session_dialog.dart';
 import '../providers/catalog_provider.dart';
 import '../providers/detail_resto_provider.dart';
 import '../widgets/catalog_restaurant_title_widget.dart';
@@ -48,7 +49,11 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage> {
   }
 
   void _checkSession() {
-    showNoSessionDialog(context);
+    context.read<UserProvider>().checkSession().then((isSession) {
+      if (isSession == false) {
+        showNoSessionDialog(context);
+      }
+    });
   }
 
   @override
@@ -91,9 +96,11 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage> {
                   }
                 },
                 onSubmitted: (value) {
-                  context
-                      .read<CatalogProvider>()
-                      .searchCatalogRestaurant(keyword: value);
+                  if (value.isNotEmpty) {
+                    context
+                        .read<CatalogProvider>()
+                        .searchCatalogRestaurant(keyword: value);
+                  }
                 },
               ),
             ),

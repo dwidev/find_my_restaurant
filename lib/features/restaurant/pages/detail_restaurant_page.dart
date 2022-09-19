@@ -70,10 +70,7 @@ class DetailRestaurantPage extends StatelessWidget {
     final drinks = context.select<DetailRestoProvider, List<MenuItemModel>>(
       (value) => value.drinks,
     );
-    final reviews =
-        context.select<DetailRestoProvider, List<CustomerReviewModel>>(
-      (value) => value.listCustomerReview,
-    );
+
     final othersResto =
         context.select<DetailRestoProvider, List<RestaurantModel>>(
       (value) => value.othersResto,
@@ -244,7 +241,6 @@ class DetailRestaurantPage extends StatelessWidget {
                                     context.push(
                                       page: CustomerReviewPage(
                                         restaurantModel: resto!,
-                                        reviews: reviews,
                                       ),
                                     );
                                   },

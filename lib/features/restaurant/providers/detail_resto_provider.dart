@@ -60,6 +60,34 @@ class DetailRestoProvider extends BaseProvider<_DetailRestoState> {
       },
     );
   }
+
+  /// function for add review
+  Future<void> addReviewByUser({
+    required String name,
+    required String restoId,
+    required String review,
+  }) async {
+    onLoading();
+
+    final response = await restaurantService.addReviewByUser(
+      name: name,
+      restoId: restoId,
+      review: review,
+    );
+
+    await response.capture(
+      ok: (data) async {
+        changeStateWithoutNotify(state.copyWith(
+          restaurantModel:
+              state.restaurantModel?.copyWith(customerReviews: data),
+        ));
+        onSuccess();
+      },
+      err: (failure) {
+        onError(failure: failure);
+      },
+    );
+  }
 }
 
 class _DetailRestoState extends BaseState {

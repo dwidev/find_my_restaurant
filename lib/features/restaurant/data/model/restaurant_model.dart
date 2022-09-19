@@ -70,4 +70,30 @@ class RestaurantModel {
 
   factory RestaurantModel.fromJson(String source) =>
       RestaurantModel.fromMap(json.decode(source));
+
+  RestaurantModel copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? pictureId,
+    String? city,
+    String? distance,
+    double? rating,
+    bool? isFamous,
+    MenuModel? menus,
+    List<CustomerReviewModel>? customerReviews,
+  }) {
+    return RestaurantModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      pictureId: pictureId ?? this.pictureId,
+      city: city ?? this.city,
+      distance: distance ?? this.distance,
+      rating: rating ?? this.rating,
+      isFamous: isFamous ?? this.isFamous,
+      menus: menus ?? this.menus,
+      customerReviews: customerReviews ?? this.customerReviews,
+    );
+  }
 }

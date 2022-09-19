@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
-import '../../../core/core.dart';
+import 'package:provider/provider.dart';
 
-void showNoSessionDialog(BuildContext context) {
+import '../../../core/core.dart';
+import '../providers/user_provider.dart';
+
+Future<void> showNoSessionDialog(BuildContext context) async {
   showModalBottomSheet(
     isScrollControlled: true,
     isDismissible: false,
@@ -40,7 +43,6 @@ class _NoSessionWidgetState extends State<_NoSessionWidget>
         animationController.stop();
       }
     });
-
     super.initState();
   }
 
@@ -55,6 +57,8 @@ class _NoSessionWidgetState extends State<_NoSessionWidget>
 
   @override
   Widget build(BuildContext context) {
+    final prov = context.watch<UserProvider>();
+
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Container(
@@ -71,7 +75,7 @@ class _NoSessionWidgetState extends State<_NoSessionWidget>
               builder: (context, child) {
                 final sineValue = sin(2 * 2 * pi * animationController.value);
                 return Transform.translate(
-                  offset: Offset(sineValue, sineValue),
+                  offset: Offset(0, sineValue),
                   child: Image.asset(
                     errorIcon,
                     width: 100,
@@ -103,10 +107,22 @@ class _NoSessionWidgetState extends State<_NoSessionWidget>
                   return;
                 }
 
-                context.pop();
-                context.showSnackbar(
-                  "Terima kasih sobat finds, Enjoyyy!!!",
-                );
+                context.read<UserProvider>().onSetUser(
+                      name: value,
+                      callbackSuccess: () {
+                        if (prov.isSession) {
+                          context.pop();
+                          context.showSnackbar(
+                            "Terima kasih sobat finds, Enjoyyy!!!",
+                          );
+                        }
+                      },
+                      callbackError: () {
+                        context.showSnackbar(
+                          prov.state.errorFailure?.message ?? "",
+                        );
+                      },
+                    );
               },
             ),
           ],

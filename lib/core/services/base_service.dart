@@ -7,7 +7,7 @@ import 'http_failure.dart';
 import 'result.dart';
 
 /// class for base service
-abstract class BaseService {
+abstract class BaseService with Guards {
   final Dio client;
 
   BaseService({required this.client}) {
@@ -24,7 +24,9 @@ abstract class BaseService {
     final response = await client.get(path, queryParameters: queryParameters);
     return response;
   }
+}
 
+mixin Guards {
   /// function for try cache
   Future<Result<S, Failure>> guards<S>({
     required Future<Result<S, Failure>> Function() process,

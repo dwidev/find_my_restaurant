@@ -44,7 +44,7 @@ ThemeData get baseTheme {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: lightColor.withOpacity(0.5),
+      fillColor: Color(0xfff5f5f5),
       contentPadding: const EdgeInsets.all(10),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(50),
