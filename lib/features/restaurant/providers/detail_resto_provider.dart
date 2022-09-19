@@ -1,6 +1,7 @@
 import '../../../core/core.dart';
 import '../../../core/services/failure.dart';
 import '../../../core/services/result.dart';
+import '../../user/service/user_service.dart';
 import '../data/model/customer_review_model.dart';
 import '../data/model/menu_item_model.dart';
 import '../data/model/menus_model.dart';
@@ -9,8 +10,10 @@ import '../services/restaurant_service.dart';
 
 class DetailRestoProvider extends BaseProvider<_DetailRestoState> {
   final RestaurantService restaurantService;
+  final UserService userService;
 
-  DetailRestoProvider({required this.restaurantService})
+  DetailRestoProvider(
+      {required this.restaurantService, required this.userService})
       : super(_DetailRestoState());
 
   RestaurantModel? get resto => state.restaurantModel;
@@ -85,6 +88,28 @@ class DetailRestoProvider extends BaseProvider<_DetailRestoState> {
       },
       err: (failure) {
         onError(failure: failure);
+      },
+    );
+  }
+
+  Future<void> onFavoriteResto() async {
+    final isFav = state.restaurantModel?.isFavorite ?? false;
+    final response = await userService.favoriteResto(
+      restaurantModel: state.restaurantModel!,
+    );
+    onLoading();
+    response.capture(
+      ok: (ok) {
+        changeStateWithoutNotify(
+          state.copyWith(
+              restaurantModel: state.restaurantModel?.copyWith(
+            isFavorite: !isFav,
+          )),
+        );
+        onSuccess();
+      },
+      err: (err) {
+        onError(failure: err);
       },
     );
   }

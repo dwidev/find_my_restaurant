@@ -48,7 +48,9 @@ class DetailRestaurantPage extends StatelessWidget {
     ];
   }
 
-  void _onFavorite(BuildContext context) async {}
+  void _onFavorite(BuildContext context) async {
+    context.read<DetailRestoProvider>().onFavoriteResto();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +71,9 @@ class DetailRestaurantPage extends StatelessWidget {
     );
     final drinks = context.select<DetailRestoProvider, List<MenuItemModel>>(
       (value) => value.drinks,
+    );
+    final isFav = context.select<DetailRestoProvider, bool>(
+      (value) => value.resto?.isFavorite ?? false,
     );
 
     final othersResto =
@@ -154,7 +159,7 @@ class DetailRestaurantPage extends StatelessWidget {
                               _onFavorite(context);
                             },
                             iconWithProperty: Icon(
-                              false
+                              isFav
                                   ? CupertinoIcons.heart_fill
                                   : CupertinoIcons.heart,
                               color: accentColor,

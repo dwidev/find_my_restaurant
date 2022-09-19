@@ -16,6 +16,7 @@ class RestaurantModel {
     required this.isFamous,
     required this.menus,
     required this.customerReviews,
+    required this.isFavorite,
   });
 
   final String id;
@@ -28,6 +29,7 @@ class RestaurantModel {
   final bool isFamous;
   final MenuModel? menus;
   final List<CustomerReviewModel> customerReviews;
+  final bool isFavorite;
 
   Map<String, dynamic> toMap() {
     return {
@@ -63,6 +65,7 @@ class RestaurantModel {
           ? List<CustomerReviewModel>.from((map['customerReviews'] as List)
               .map((x) => CustomerReviewModel.fromMap(x)))
           : [],
+      isFavorite: false,
     );
   }
 
@@ -82,6 +85,7 @@ class RestaurantModel {
     bool? isFamous,
     MenuModel? menus,
     List<CustomerReviewModel>? customerReviews,
+    bool? isFavorite,
   }) {
     return RestaurantModel(
       id: id ?? this.id,
@@ -94,6 +98,7 @@ class RestaurantModel {
       isFamous: isFamous ?? this.isFamous,
       menus: menus ?? this.menus,
       customerReviews: customerReviews ?? this.customerReviews,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }

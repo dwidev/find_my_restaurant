@@ -19,17 +19,28 @@ class RestaurantApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) {
           return CatalogProvider(
-            restaurantService: RestaurantService(client: Dio()),
+            restaurantService: RestaurantService(
+              client: Dio(),
+              userPreference: UserPreferenceImpl(),
+            ),
           );
         }),
         ChangeNotifierProvider(create: (context) {
           return DetailRestoProvider(
-            restaurantService: RestaurantService(client: Dio()),
+            userService: UserService(
+              userPreference: UserPreferenceImpl(),
+            ),
+            restaurantService: RestaurantService(
+              client: Dio(),
+              userPreference: UserPreferenceImpl(),
+            ),
           );
         }),
         ChangeNotifierProvider(create: (context) {
           return UserProvider(
-            userService: UserService(userPreference: UserPreferenceImpl()),
+            userService: UserService(
+              userPreference: UserPreferenceImpl(),
+            ),
           );
         }),
       ],
