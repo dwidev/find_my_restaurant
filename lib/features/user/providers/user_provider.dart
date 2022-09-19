@@ -1,3 +1,7 @@
+import 'package:flutter/foundation.dart';
+
+import 'package:find_my_restaurant/features/restaurant/data/model/restaurant_model.dart';
+
 import '../../../core/core.dart';
 import '../data/user_model.dart';
 import '../service/user_service.dart';
@@ -62,24 +66,46 @@ class UserProvider extends BaseProvider<UserState> {
       },
     );
   }
+
+  /// function for get list favorite
+  Future<void> getFavoriteRestaurant() async {
+    changeStateWithoutNotify(state.copyWith(listFavorite: []));
+    onLoading();
+
+    final request = await userService.getFavorite();
+
+    request.capture(
+      ok: (data) {
+        changeStateWithoutNotify(state.copyWith(listFavorite: data));
+        onSuccess();
+      },
+      err: (err) {
+        onError(failure: err);
+      },
+    );
+  }
 }
 
 class UserState extends BaseState {
   final UserModel? userModel;
   final bool isSession;
+  final List<RestaurantModel> listFavorite;
 
   UserState({
     this.userModel,
     this.isSession = false,
+    this.listFavorite = const [],
   });
 
   UserState copyWith({
     UserModel? userModel,
     bool? isSession,
+    List<RestaurantModel>? listFavorite,
   }) {
     return UserState(
       userModel: userModel ?? this.userModel,
       isSession: isSession ?? this.isSession,
+      listFavorite: listFavorite ?? this.listFavorite,
     );
   }
 
@@ -89,9 +115,11 @@ class UserState extends BaseState {
 
     return other is UserState &&
         other.userModel == userModel &&
-        other.isSession == isSession;
+        other.isSession == isSession &&
+        listEquals(other.listFavorite, listFavorite);
   }
 
   @override
-  int get hashCode => userModel.hashCode ^ isSession.hashCode;
+  int get hashCode =>
+      userModel.hashCode ^ isSession.hashCode ^ listFavorite.hashCode;
 }

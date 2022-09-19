@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:find_my_restaurant/features/user/providers/user_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +50,9 @@ class DetailRestaurantPage extends StatelessWidget {
   }
 
   void _onFavorite(BuildContext context) async {
-    context.read<DetailRestoProvider>().onFavoriteResto();
+    context.read<DetailRestoProvider>().onFavoriteResto().then((_) {
+      context.read<UserProvider>().getFavoriteRestaurant();
+    });
   }
 
   @override

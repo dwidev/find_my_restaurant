@@ -32,6 +32,15 @@ class UserService with Guards {
     );
   }
 
+  Future<Result<List<RestaurantModel>, Failure>> getFavorite() async {
+    return guards(
+      process: () async {
+        final listResto = await userPreference.getFavoriteResto();
+        return Ok(listResto);
+      },
+    );
+  }
+
   Future<Result<bool, Failure>> favoriteResto({
     required RestaurantModel restaurantModel,
   }) async {

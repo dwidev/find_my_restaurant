@@ -38,6 +38,7 @@ class RestaurantModel {
       'description': description,
       'pictureId': pictureId,
       'city': city,
+      'distance': distance,
       'rating': rating,
       'isFamous': isFamous,
       'menus': menus?.toMap(),
@@ -46,7 +47,13 @@ class RestaurantModel {
   }
 
   factory RestaurantModel.fromMap(Map<String, dynamic> map) {
-    final distance = Random().nextInt(10) + 3; // dummy distance by random int
+    String distance;
+    if (map['distance'] != null) {
+      distance = map['distance'];
+    } else {
+      // dummy distance by random int
+      distance = "${Random().nextInt(10) + 3}  km";
+    }
 
     // set famous tag when rating greater than 4
     final isFamous = (map['rating']?.toDouble() ?? 0.0) > 4;
@@ -57,7 +64,7 @@ class RestaurantModel {
       description: map['description'] ?? '',
       pictureId: map['pictureId'] ?? '',
       city: map['city'] ?? '',
-      distance: "$distance km",
+      distance: distance,
       rating: map['rating']?.toDouble() ?? 0.0,
       isFamous: isFamous,
       menus: map['menus'] != null ? MenuModel.fromMap(map['menus']) : null,

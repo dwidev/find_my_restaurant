@@ -66,7 +66,7 @@ class UserPreferenceImpl extends BaseLocalPreferenceImpl
           .toList();
     }
 
-    return listResto;
+    return listResto.reversed.toList();
   }
 
   @override

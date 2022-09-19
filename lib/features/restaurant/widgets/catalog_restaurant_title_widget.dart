@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/core.dart';
-import '../../splash/page/splash_page.dart';
+import '../../user/page/user_setting_page.dart';
 import '../../user/providers/user_provider.dart';
+import '../pages/detail_restaurant_page.dart';
+import '../providers/detail_resto_provider.dart';
+import 'item_tile_loading_widget.dart';
+import 'item_tile_widget.dart';
 
 class CatalogRestaurantTitleWidget extends StatelessWidget {
   const CatalogRestaurantTitleWidget({
@@ -12,10 +15,7 @@ class CatalogRestaurantTitleWidget extends StatelessWidget {
   }) : super(key: key);
 
   void _goToProfile(BuildContext context) {
-    SharedPreferences.getInstance().then((value) {
-      value.clear();
-      context.pushReplacement(page: const SplashPage());
-    });
+    context.push(page: const UserProfilePage());
   }
 
   @override
@@ -39,7 +39,7 @@ class CatalogRestaurantTitleWidget extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: () => _goToProfile(context),
                       child: Text(
                         "Hiii ${value.state.userModel?.name}",

@@ -5,6 +5,8 @@ import '../../user/providers/user_provider.dart';
 import '../../user/widget/no_session_dialog.dart';
 import '../providers/catalog_provider.dart';
 import '../providers/detail_resto_provider.dart';
+import '../view/catalog_restaurant_view.dart';
+import '../view/favorite_restaurant_view.dart';
 import '../widgets/catalog_restaurant_title_widget.dart';
 import '../widgets/item_tile_loading_widget.dart';
 import '../widgets/item_tile_widget.dart';
@@ -17,15 +19,21 @@ class CatalogRestaurantPage extends StatefulWidget {
   State<CatalogRestaurantPage> createState() => _CatalogRestaurantPageState();
 }
 
-class _CatalogRestaurantPageState extends State<CatalogRestaurantPage> {
+class _CatalogRestaurantPageState extends State<CatalogRestaurantPage>
+    with SingleTickerProviderStateMixin {
   bool isClearSearch = false;
+  late TabController tabController;
   late TextEditingController searchController;
+  int _currentTab = 0;
 
   @override
   void initState() {
+    tabController = TabController(length: 2, vsync: this)
+      ..addListener(_onChangeTab);
     searchController = TextEditingController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<UserProvider>().getFavoriteRestaurant();
       context.read<CatalogProvider>().getCatalogRestaurant();
       _checkSession();
     });
@@ -34,8 +42,19 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage> {
 
   @override
   void dispose() {
+    tabController.removeListener(_onChangeTab);
+    tabController.dispose();
     searchController.dispose();
     super.dispose();
+  }
+
+  void _onChangeTab() {
+    setState(() {
+      _currentTab = tabController.index;
+    });
+    if (_currentTab == 1) {
+      context.read<UserProvider>().getFavoriteRestaurant();
+    }
   }
 
   void _onClearSearch() {
@@ -58,12 +77,12 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage> {
 
   @override
   Widget build(BuildContext context) {
+    final favCount = context.select<UserProvider, int>(
+      (prov) => prov.state.listFavorite.length,
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   shadowColor: Colors.transparent,
-      // ),
       body: Padding(
         padding: EdgeInsets.only(top: context.mediaQuery.viewPadding.top + 10),
         child: Column(
@@ -104,79 +123,43 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage> {
                 },
               ),
             ),
-            Expanded(
-              child: Consumer<CatalogProvider>(
-                builder: (context, value, child) {
-                  if (value.isError) {
-                    return RestoErrorWidget(
-                      failure: value.errorFailure,
-                      onRetry: () {
-                        value.getCatalogRestaurant();
-                      },
-                    );
-                  }
-
-                  if (value.isSuccess && value.state.listResto.isEmpty) {
-                    return Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            searchIcon,
-                            width: 100,
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: context.widthSize / 1.5,
-                            child: Text(
-                              "Upss.. tidak ada data yang ditemukan",
-                              style: context.textTheme.caption?.copyWith(
-                                fontSize: 15,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TabBar(
+                  controller: tabController,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        "Explore",
+                        style: context.textTheme.bodyText1?.copyWith(
+                          color: _currentTab == 0
+                              ? primaryColor
+                              : darkColor.withOpacity(0.5),
+                        ),
                       ),
-                    );
-                  }
-                  final itemCount =
-                      value.isLoading ? 10 : value.state.listResto.length;
-
-                  return ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: itemCount,
-                    itemBuilder: (context, index) {
-                      if (value.isLoading) {
-                        return RestaurantTileLoadingWidget(
-                          isLoading: value.isLoading,
-                        );
-                      }
-
-                      final restaurantModel = value.state.listResto[index];
-                      final heroTag = "list-tile-${restaurantModel.id}";
-
-                      return RestaurantTileWidget(
-                        heroTag: heroTag,
-                        restaurantModel: restaurantModel,
-                        onPressed: (String id) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          context
-                              .read<DetailRestoProvider>()
-                              .getDetailResto(id);
-                          context.push(
-                            page: DetailRestaurantPage(
-                              restoId: restaurantModel.id,
-                              heroTag: heroTag,
-                              distance: restaurantModel.distance,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
+                    ),
+                    Tab(
+                      child: Text(
+                        "Favorite ($favCount)",
+                        style: context.textTheme.bodyText1?.copyWith(
+                          color: _currentTab == 1
+                              ? primaryColor
+                              : darkColor.withOpacity(0.5),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: const [
+                  CatalogRestoView(),
+                  FavoriteRestoView(),
+                ],
               ),
             ),
           ],
