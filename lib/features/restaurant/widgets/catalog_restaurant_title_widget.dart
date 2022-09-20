@@ -28,25 +28,33 @@ class CatalogRestaurantTitleWidget extends StatelessWidget {
           Consumer<UserProvider>(
             builder: (context, value, child) {
               if (value.isSession) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CircileIconWidget(
-                      onPressed: () => _goToProfile(context),
-                      isShadow: false,
-                      iconWithProperty: const Icon(
-                        CupertinoIcons.profile_circled,
-                        size: 20,
+                return Padding(
+                  padding: EdgeInsets.zero.copyWith(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            CupertinoIcons.profile_circled,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "Hiii ${value.state.userModel?.name}",
+                            style: context.textTheme.titleMedium,
+                          ),
+                        ],
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () => _goToProfile(context),
-                      child: Text(
-                        "Hiii ${value.state.userModel?.name}",
-                        style: context.textTheme.titleMedium,
-                      ),
-                    ),
-                  ],
+                      GestureDetector(
+                        onTap: () => _goToProfile(context),
+                        child: const Icon(
+                          Icons.settings,
+                          size: 20,
+                        ),
+                      )
+                    ],
+                  ),
                 );
               }
 

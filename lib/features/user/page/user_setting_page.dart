@@ -12,21 +12,69 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: const Text("Settings"),
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Restaurant recomendation"),
-              Switch(
-                value: false,
-                onChanged: (value) {},
-              ),
-            ],
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Notifikasi rekomendasi",
+                        style: context.textTheme.titleSmall,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Text(
+                          "aktifkan untuk memberikan rekomendasi restaurant tiap hari nya",
+                          style: context.textTheme.caption,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tema aplikasi",
+                        style: context.textTheme.titleSmall,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Text(
+                          "Mode terang",
+                          style: context.textTheme.caption,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -103,6 +103,9 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage>
                         )
                       : null,
                 ),
+                onTap: () {
+                  tabController.animateTo(0);
+                },
                 onChanged: (value) {
                   if (value.isEmpty) {
                     setState(() {
