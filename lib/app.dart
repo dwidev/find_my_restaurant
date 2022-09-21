@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:find_my_restaurant/core/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'core/core.dart';
@@ -17,6 +18,11 @@ class RestaurantApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) {
+            return ThemeProvider();
+          },
+        ),
         ChangeNotifierProvider(create: (context) {
           return CatalogProvider(
             restaurantService: RestaurantService(
@@ -45,11 +51,16 @@ class RestaurantApp extends StatelessWidget {
         }),
       ],
       builder: (context, child) {
-        return MaterialApp(
-          title: "Find My Restaurant",
-          theme: baseTheme,
-          themeMode: ThemeMode.dark,
-          home: const SplashPage(),
+        return Consumer<ThemeProvider>(
+          builder: (context, theme, child) {
+            return MaterialApp(
+              title: "Find My Restaurant",
+              darkTheme: darkTheme,
+              theme: theme.currentTheme,
+              themeMode: ThemeMode.system,
+              home: const SplashPage(),
+            );
+          },
         );
       },
     );

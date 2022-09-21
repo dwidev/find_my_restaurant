@@ -4,13 +4,9 @@ import '../../../core/core.dart';
 import '../../user/providers/user_provider.dart';
 import '../../user/widget/no_session_dialog.dart';
 import '../providers/catalog_provider.dart';
-import '../providers/detail_resto_provider.dart';
 import '../view/catalog_restaurant_view.dart';
 import '../view/favorite_restaurant_view.dart';
 import '../widgets/catalog_restaurant_title_widget.dart';
-import '../widgets/item_tile_loading_widget.dart';
-import '../widgets/item_tile_widget.dart';
-import 'detail_restaurant_page.dart';
 
 class CatalogRestaurantPage extends StatefulWidget {
   const CatalogRestaurantPage({Key? key}) : super(key: key);
@@ -82,7 +78,7 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage>
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: EdgeInsets.only(top: context.mediaQuery.viewPadding.top + 10),
         child: Column(
@@ -132,26 +128,8 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage>
                 TabBar(
                   controller: tabController,
                   tabs: [
-                    Tab(
-                      child: Text(
-                        "Explore",
-                        style: context.textTheme.bodyText1?.copyWith(
-                          color: _currentTab == 0
-                              ? primaryColor
-                              : darkColor.withOpacity(0.5),
-                        ),
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        "Favorite ($favCount)",
-                        style: context.textTheme.bodyText1?.copyWith(
-                          color: _currentTab == 1
-                              ? primaryColor
-                              : darkColor.withOpacity(0.5),
-                        ),
-                      ),
-                    )
+                    const Tab(text: "Explore"),
+                    Tab(text: "Favorite ($favCount)")
                   ],
                 ),
               ],

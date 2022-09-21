@@ -1,4 +1,7 @@
+import 'package:provider/provider.dart';
+
 import '../core.dart';
+import '../theme/theme_provider.dart';
 
 class LoadingEffectAnimationWidget extends StatefulWidget {
   const LoadingEffectAnimationWidget({
@@ -20,29 +23,46 @@ class LoadingEffectAnimationWidget extends StatefulWidget {
 
 class _LoadingEffectAnimationWidgetState
     extends State<LoadingEffectAnimationWidget> {
-  List<Color> colorList = [
-    const Color(0xFFEBEBF4),
-    const Color(0xFFF4F4F4),
-    const Color(0xFFEBEBF4),
-  ];
-
   int index = 0;
 
-  Color mainColor = darkColor;
-  Color secondColor = lightColor;
+  late Color mainColor;
+  late Color secondColor;
   Alignment begin = Alignment.centerRight;
   Alignment end = Alignment.centerRight;
 
   @override
   void initState() {
+    final theme = context.read<ThemeProvider>();
+    mainColor = theme.isDark ? Colors.grey : darkColor;
+    secondColor = theme.isDark ? Colors.grey : lightColor;
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.isLoading) {
         setState(() {
-          mainColor = lightColor;
+          mainColor = theme.isDark ? Colors.grey : const Color(0xFFEBEBF4);
+          secondColor =
+              theme.isDark ? Colors.grey.shade500 : const Color(0xFFF4F4F4);
         });
       }
     });
     super.initState();
+  }
+
+  List<Color> get getListColor {
+    final theme = context.read<ThemeProvider>();
+    if (theme.isDark) {
+      return [
+        Colors.grey,
+        Colors.grey.shade500,
+        Colors.grey.shade700,
+      ];
+    }
+
+    return [
+      const Color(0xFFEBEBF4),
+      const Color(0xFFF4F4F4),
+      const Color(0xFFEBEBF4),
+    ];
   }
 
   @override
@@ -53,8 +73,8 @@ class _LoadingEffectAnimationWidgetState
         if (widget.isLoading) {
           setState(() {
             index = index + 1;
-            mainColor = colorList[index % colorList.length];
-            secondColor = colorList[(index + 1) % colorList.length];
+            mainColor = getListColor[index % getListColor.length];
+            secondColor = getListColor[(index + 1) % getListColor.length];
           });
         }
       },

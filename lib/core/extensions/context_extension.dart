@@ -1,5 +1,8 @@
-import 'package:find_my_restaurant/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../core.dart';
+import '../theme/theme_provider.dart';
 
 /// extension for simply property of context aplication
 extension ContextExt on BuildContext {
@@ -59,5 +62,10 @@ extension ContextExt on BuildContext {
     );
 
     ScaffoldMessenger.of(this).showSnackBar(snackBar);
+  }
+
+  /// theme
+  bool get isDark {
+    return watch<ThemeProvider>().isDark;
   }
 }

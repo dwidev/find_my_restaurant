@@ -37,12 +37,13 @@ class _CustomerReviewPageState extends State<CustomerReviewPage> {
     FocusManager.instance.primaryFocus?.unfocus();
     final name =
         context.read<UserProvider>().state.userModel?.name ?? "Anonymous";
-
-    context.read<DetailRestoProvider>().addReviewByUser(
-          name: name,
-          restoId: widget.restaurantModel.id,
-          review: reviewController.text,
-        );
+    if (reviewController.text.isNotEmpty) {
+      context.read<DetailRestoProvider>().addReviewByUser(
+            name: name,
+            restoId: widget.restaurantModel.id,
+            review: reviewController.text,
+          );
+    }
   }
 
   @override
@@ -101,16 +102,12 @@ class _CustomerReviewPageState extends State<CustomerReviewPage> {
                             const SizedBox(height: 2),
                             Text(
                               review.date,
-                              style: context.textTheme.caption?.copyWith(
-                                color: darkColor.withOpacity(0.5),
-                              ),
+                              style: context.textTheme.caption,
                             ),
                             const SizedBox(height: 10),
                             Text(
                               review.review,
-                              style: context.textTheme.caption?.copyWith(
-                                color: darkColor,
-                              ),
+                              style: context.textTheme.caption,
                             ),
                           ],
                         ),
@@ -133,14 +130,15 @@ class _CustomerReviewPageState extends State<CustomerReviewPage> {
                   Expanded(
                     child: Material(
                       borderRadius: BorderRadius.circular(50),
-                      shadowColor: lightColor,
                       elevation: 20,
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxHeight: 80),
                         child: TextField(
                           controller: reviewController,
                           decoration: InputDecoration(
-                            fillColor: Colors.white,
+                            fillColor: context.isDark
+                                ? Colors.grey.shade900
+                                : Colors.white,
                             hintText: "Masukin review kamu disini ya",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -155,9 +153,9 @@ class _CustomerReviewPageState extends State<CustomerReviewPage> {
                   const SizedBox(width: 10),
                   Material(
                     borderRadius: BorderRadius.circular(50),
-                    shadowColor: lightColor,
                     elevation: 20,
                     child: CircileIconWidget(
+                      // backgroundColor: isd,
                       onPressed: _onSendRiview,
                       iconWithProperty: const Icon(
                         Icons.send,

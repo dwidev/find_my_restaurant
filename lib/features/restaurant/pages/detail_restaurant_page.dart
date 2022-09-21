@@ -19,11 +19,13 @@ class DetailRestaurantPage extends StatelessWidget {
     Key? key,
     required this.restoId,
     required this.heroTag,
+    required this.image,
     required this.distance,
   }) : super(key: key);
 
   final String restoId;
   final String heroTag;
+  final String image;
   final String distance;
 
   List<Widget> descLoadingWidget(BuildContext context) {
@@ -95,47 +97,23 @@ class DetailRestaurantPage extends StatelessWidget {
               tag: heroTag,
               child: Stack(
                 children: [
-                  if (isLoading) ...{
-                    LoadingEffectAnimationWidget(
-                      isLoading: true,
-                      width: context.widthSize,
-                      height: context.heightSize / 3,
+                  Container(
+                    width: context.widthSize,
+                    height: context.heightSize / 3,
+                    decoration: BoxDecoration(
+                      color: lightColor,
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(15),
                         bottomRight: Radius.circular(15),
                       ),
-                    )
-                  } else if (isSuccess) ...{
-                    Container(
-                      width: context.widthSize,
-                      height: context.heightSize / 3,
-                      decoration: BoxDecoration(
-                        color: lightColor,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15),
-                        ),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            "$largeResolution${resto?.pictureId}",
-                          ),
-                        ),
-                      ),
-                    )
-                  } else ...{
-                    Container(
-                      width: context.widthSize,
-                      height: context.heightSize / 3,
-                      decoration: const BoxDecoration(
-                        color: lightColor,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          image,
                         ),
                       ),
                     ),
-                  },
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -389,6 +367,8 @@ class DetailRestaurantPage extends StatelessWidget {
 
                             context.pushReplacement(
                               page: DetailRestaurantPage(
+                                image:
+                                    "$largeResolution${othersRestaurant.pictureId}",
                                 distance: othersRestaurant.distance,
                                 restoId: restoId,
                                 heroTag: "others-detail-${othersRestaurant.id}",

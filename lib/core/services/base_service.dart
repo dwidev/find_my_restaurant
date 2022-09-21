@@ -13,6 +13,8 @@ abstract class BaseService with Guards {
   BaseService({required this.client}) {
     client.options = BaseOptions(
       baseUrl: "https://restaurant-api.dicoding.dev",
+      connectTimeout: 10000, // 10 seconds
+      receiveTimeout: 5000, // 5 seconds
     );
   }
 
@@ -38,6 +40,10 @@ mixin Guards {
 
       if (e.error is SocketException) {
         return Error(InternetConnectionFailure());
+      }
+
+      if (e.type == DioErrorType.connectTimeout) {
+        return Error(ConnectionTimeoutFailure());
       }
 
       if (statusCode >= 400 && statusCode < 500) {

@@ -8,6 +8,7 @@ import '../providers/user_provider.dart';
 
 Future<void> showNoSessionDialog(BuildContext context) async {
   showModalBottomSheet(
+    enableDrag: false,
     isScrollControlled: true,
     isDismissible: false,
     context: context,
@@ -95,7 +96,7 @@ class _NoSessionWidgetState extends State<_NoSessionWidget>
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 25),
             TextField(
               textAlign: TextAlign.center,
               decoration: const InputDecoration(

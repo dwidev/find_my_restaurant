@@ -1,3 +1,6 @@
+import 'package:find_my_restaurant/core/theme/theme_provider.dart';
+import 'package:provider/provider.dart';
+
 import '../../../core/core.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -10,6 +13,8 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -40,7 +45,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                 ),
                 Switch(
-                  value: false,
+                  value: true,
                   onChanged: (value) {},
                 ),
               ],
@@ -60,7 +65,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
                         child: Text(
-                          "Mode terang",
+                          "Mode ${theme.isDark ? "gelap" : "terang"}",
                           style: context.textTheme.caption,
                         ),
                       ),
@@ -68,9 +73,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                 ),
                 Switch(
-                  value: false,
-                  onChanged: (value) {},
-                ),
+                  value: theme.isDark,
+                  onChanged: (darkMode) {
+                    if (darkMode) {
+                      context.read<ThemeProvider>().setDarkTheme();
+                    } else {
+                      context.read<ThemeProvider>().setLightTheme();
+                    }
+                  },
+                )
               ],
             ),
           ],

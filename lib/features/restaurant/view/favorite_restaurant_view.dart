@@ -54,6 +54,7 @@ class FavoriteRestoView extends StatelessWidget {
                 context.read<DetailRestoProvider>().getDetailResto(id);
                 context.push(
                   page: DetailRestaurantPage(
+                    image: "$largeResolution${restaurantModel.pictureId}",
                     restoId: restaurantModel.id,
                     heroTag: heroTag,
                     distance: restaurantModel.distance,

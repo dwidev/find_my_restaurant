@@ -74,6 +74,7 @@ class CatalogRestoView extends StatelessWidget {
                 context.push(
                   page: DetailRestaurantPage(
                     restoId: restaurantModel.id,
+                    image: "$largeResolution${restaurantModel.pictureId}",
                     heroTag: heroTag,
                     distance: restaurantModel.distance,
                   ),

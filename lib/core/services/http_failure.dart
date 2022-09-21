@@ -12,6 +12,14 @@ class InternetConnectionFailure extends HttpFailure {
         );
 }
 
+/// for handle no connect to server
+class ConnectionTimeoutFailure extends HttpFailure {
+  ConnectionTimeoutFailure()
+      : super(
+          "Mohon maaf gagal menghubungkan ke server :( silahkan coba beberapa saat lagi",
+        );
+}
+
 /// for handle server error
 class InternalServerErrorFailure extends HttpFailure {
   InternalServerErrorFailure(int code)
