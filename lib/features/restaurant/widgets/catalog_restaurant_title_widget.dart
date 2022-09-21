@@ -4,10 +4,6 @@ import 'package:provider/provider.dart';
 import '../../../core/core.dart';
 import '../../user/page/user_setting_page.dart';
 import '../../user/providers/user_provider.dart';
-import '../pages/detail_restaurant_page.dart';
-import '../providers/detail_resto_provider.dart';
-import 'item_tile_loading_widget.dart';
-import 'item_tile_widget.dart';
 
 class CatalogRestaurantTitleWidget extends StatelessWidget {
   const CatalogRestaurantTitleWidget({

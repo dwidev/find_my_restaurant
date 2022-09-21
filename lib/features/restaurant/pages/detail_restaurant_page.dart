@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:find_my_restaurant/features/user/providers/user_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/core.dart';
 import '../../../core/services/failure.dart';
-import '../data/model/customer_review_model.dart';
+import '../../user/providers/user_provider.dart';
 import '../data/model/menu_item_model.dart';
 import '../data/model/restaurant_model.dart';
 import '../providers/detail_resto_provider.dart';
@@ -93,11 +93,11 @@ class DetailRestaurantPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Hero(
-              tag: heroTag,
-              child: Stack(
-                children: [
-                  Container(
+            Stack(
+              children: [
+                Hero(
+                  tag: heroTag,
+                  child: Container(
                     width: context.widthSize,
                     height: context.heightSize / 3,
                     decoration: BoxDecoration(
@@ -108,50 +108,48 @@ class DetailRestaurantPage extends StatelessWidget {
                       ),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                          image,
-                        ),
+                        image: CachedNetworkImageProvider(image),
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: context.mediaQuery.padding.top + 15,
+                        left: 15,
+                      ),
+                      child: CircileIconWidget(
+                        icon: CupertinoIcons.back,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    if (isSuccess)
                       Container(
                         margin: EdgeInsets.only(
                           top: context.mediaQuery.padding.top + 15,
-                          left: 15,
+                          right: 15,
                         ),
                         child: CircileIconWidget(
-                          icon: CupertinoIcons.back,
                           onPressed: () {
-                            Navigator.pop(context);
+                            _onFavorite(context);
                           },
+                          iconWithProperty: Icon(
+                            isFav
+                                ? CupertinoIcons.heart_fill
+                                : CupertinoIcons.heart,
+                            color: accentColor,
+                            size: CircileIconWidget.size,
+                          ),
                         ),
                       ),
-                      if (isSuccess)
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: context.mediaQuery.padding.top + 15,
-                            right: 15,
-                          ),
-                          child: CircileIconWidget(
-                            onPressed: () {
-                              _onFavorite(context);
-                            },
-                            iconWithProperty: Icon(
-                              isFav
-                                  ? CupertinoIcons.heart_fill
-                                  : CupertinoIcons.heart,
-                              color: accentColor,
-                              size: CircileIconWidget.size,
-                            ),
-                          ),
-                        ),
-                    ],
-                  )
-                ],
-              ),
+                  ],
+                )
+              ],
             ),
             Container(
               width: context.widthSize,

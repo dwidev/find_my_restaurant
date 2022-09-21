@@ -8,12 +8,12 @@ class ReviewWidget extends StatelessWidget {
 
   final double rating;
 
-  Widget buildStar(int index) {
+  Widget buildStar(BuildContext context, int index) {
     Icon icon;
     if (index >= rating) {
-      icon = Icon(
-        Icons.star,
-        color: darkColor.withOpacity(0.5),
+      icon = const Icon(
+        Icons.star_outline,
+        color: primaryColor,
       );
     } else if (index > rating - 1 && index < rating) {
       icon = const Icon(
@@ -34,7 +34,7 @@ class ReviewWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: List.generate(5, (index) => buildStar(index)),
+      children: List.generate(5, (index) => buildStar(context, index)),
     );
   }
 }

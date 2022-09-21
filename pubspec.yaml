@@ -49,6 +49,9 @@ dependencies:
   # http client
   dio: ^4.0.6
 
+  # cache image
+  cached_network_image: ^3.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

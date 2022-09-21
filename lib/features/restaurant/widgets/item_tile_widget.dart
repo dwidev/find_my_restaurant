@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../core/core.dart';
 import '../data/model/restaurant_model.dart';
 
@@ -38,8 +40,8 @@ class RestaurantTileWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://restaurant-api.dicoding.dev/images/small/${restaurantModel.pictureId}"),
+                    image: CachedNetworkImageProvider(
+                        "$largeResolution${restaurantModel.pictureId}"),
                   ),
                 ),
               ),

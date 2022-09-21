@@ -38,11 +38,16 @@ class _CustomerReviewPageState extends State<CustomerReviewPage> {
     final name =
         context.read<UserProvider>().state.userModel?.name ?? "Anonymous";
     if (reviewController.text.isNotEmpty) {
-      context.read<DetailRestoProvider>().addReviewByUser(
+      context
+          .read<DetailRestoProvider>()
+          .addReviewByUser(
             name: name,
             restoId: widget.restaurantModel.id,
             review: reviewController.text,
-          );
+          )
+          .then((value) {
+        reviewController.clear();
+      });
     }
   }
 
@@ -53,9 +58,6 @@ class _CustomerReviewPageState extends State<CustomerReviewPage> {
         context.select<DetailRestoProvider, List<CustomerReviewModel>>((prov) =>
             prov.state.restaurantModel?.customerReviews.reversed.toList() ??
             []);
-    if (watchProvDetail.isSuccess) {
-      reviewController.clear();
-    }
 
     if (watchProvDetail.isError) {
       context.showSnackbar(
@@ -155,7 +157,6 @@ class _CustomerReviewPageState extends State<CustomerReviewPage> {
                     borderRadius: BorderRadius.circular(50),
                     elevation: 20,
                     child: CircileIconWidget(
-                      // backgroundColor: isd,
                       onPressed: _onSendRiview,
                       iconWithProperty: const Icon(
                         Icons.send,
