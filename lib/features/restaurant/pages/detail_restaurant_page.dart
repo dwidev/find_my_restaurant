@@ -14,19 +14,31 @@ import '../widgets/menu_item_widget.dart';
 import '../widgets/others_restaurant_tile_widget.dart';
 import 'customer_review_page.dart';
 
-class DetailRestaurantPage extends StatelessWidget {
-  const DetailRestaurantPage({
-    Key? key,
-    required this.restoId,
-    required this.heroTag,
-    required this.image,
-    required this.distance,
-  }) : super(key: key);
-
+class DetailRestaurantPageArgs {
   final String restoId;
   final String heroTag;
   final String image;
   final String distance;
+
+  DetailRestaurantPageArgs({
+    required this.restoId,
+    required this.heroTag,
+    required this.image,
+    required this.distance,
+  });
+}
+
+class DetailRestaurantPage extends StatelessWidget {
+  static const routeName = "DetailRestaurantPage";
+
+  final DetailRestaurantPageArgs args;
+
+  const DetailRestaurantPage({Key? key, required this.args}) : super(key: key);
+
+  String get restoId => args.restoId;
+  String get heroTag => args.heroTag;
+  String get image => args.image;
+  String get distance => args.distance;
 
   List<Widget> descLoadingWidget(BuildContext context) {
     return [
@@ -124,7 +136,7 @@ class DetailRestaurantPage extends StatelessWidget {
                       child: CircileIconWidget(
                         icon: CupertinoIcons.back,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigation.back();
                         },
                       ),
                     ),
@@ -222,10 +234,9 @@ class DetailRestaurantPage extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    context.push(
-                                      page: CustomerReviewPage(
-                                        restaurantModel: resto!,
-                                      ),
+                                    Navigation.intentWithData(
+                                      CustomerReviewPage.routeName,
+                                      resto!,
                                     );
                                   },
                                   child: Text(
@@ -356,21 +367,26 @@ class DetailRestaurantPage extends StatelessWidget {
                       itemCount: othersResto.length,
                       itemBuilder: (context, index) {
                         final othersRestaurant = othersResto[index];
+                        final heroTag = "others-detail-${othersRestaurant.id}";
                         return OthersRestaurantTileWidget(
+                          heroTag: heroTag,
                           restaurantModel: othersRestaurant,
                           onPressed: () {
-                            context
-                                .read<DetailRestoProvider>()
-                                .getDetailResto(othersRestaurant.id);
+                            context.read<DetailRestoProvider>().getDetailResto(
+                                  othersRestaurant.id,
+                                );
 
-                            context.pushReplacement(
-                              page: DetailRestaurantPage(
-                                image:
-                                    "$largeResolution${othersRestaurant.pictureId}",
-                                distance: othersRestaurant.distance,
-                                restoId: restoId,
-                                heroTag: "others-detail-${othersRestaurant.id}",
-                              ),
+                            final args = DetailRestaurantPageArgs(
+                              restoId: othersRestaurant.id,
+                              heroTag: heroTag,
+                              image:
+                                  "$largeResolution${othersRestaurant.pictureId}",
+                              distance: othersRestaurant.distance,
+                            );
+
+                            Navigation.intentRemoveWithData(
+                              DetailRestaurantPage.routeName,
+                              args,
                             );
                           },
                         );
@@ -380,9 +396,9 @@ class DetailRestaurantPage extends StatelessWidget {
                     RestoErrorWidget(
                       failure: failure,
                       onRetry: () {
-                        context
-                            .read<DetailRestoProvider>()
-                            .getDetailResto(restoId, withNotify: true);
+                        context.read<DetailRestoProvider>().getDetailResto(
+                              restoId,
+                            );
                       },
                     ),
                   },

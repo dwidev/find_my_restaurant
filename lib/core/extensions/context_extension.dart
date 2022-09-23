@@ -30,23 +30,6 @@ extension ContextExt on BuildContext {
     return mediaQuery.size.height;
   }
 
-  // --- Navigator ---
-
-  /// for push
-  Future<void> push({required Widget page}) {
-    return Navigator.push(this, MaterialPageRoute(builder: (context) => page));
-  }
-
-  Future<void> pushReplacement({required Widget page}) {
-    return Navigator.pushReplacement(
-      this,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-
-  /// for pop
-  void pop() => Navigator.pop(this);
-
   // ---- shackbar ----
   Future<void> showSnackbar(String message) async {
     final snackBar = SnackBar(
@@ -66,5 +49,10 @@ extension ContextExt on BuildContext {
   /// theme
   bool get isDark {
     return watch<ThemeProvider>().isDark;
+  }
+
+  /// for argument
+  Object? get argument {
+    return ModalRoute.of(this)?.settings.arguments;
   }
 }

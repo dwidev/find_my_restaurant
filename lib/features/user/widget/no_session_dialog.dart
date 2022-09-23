@@ -112,7 +112,7 @@ class _NoSessionWidgetState extends State<_NoSessionWidget>
                       name: value,
                       callbackSuccess: () {
                         if (prov.isSession) {
-                          context.pop();
+                          Navigation.back();
                           context.showSnackbar(
                             "Terima kasih sobat finds, Enjoyyy!!!",
                           );

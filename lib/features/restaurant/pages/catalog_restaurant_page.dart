@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 
 import '../../../core/core.dart';
+import '../../../core/helpers/local_notification_helper.dart';
 import '../../user/providers/user_provider.dart';
 import '../../user/widget/no_session_dialog.dart';
 import '../providers/catalog_provider.dart';
@@ -9,6 +10,8 @@ import '../view/favorite_restaurant_view.dart';
 import '../widgets/catalog_restaurant_title_widget.dart';
 
 class CatalogRestaurantPage extends StatefulWidget {
+  static const routeName = "CatalogRestaurantPage";
+
   const CatalogRestaurantPage({Key? key}) : super(key: key);
 
   @override
@@ -33,6 +36,7 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage>
       context.read<CatalogProvider>().getCatalogRestaurant();
       _checkSession();
     });
+    LocalNotificationHelpers.instance.configureSelectNotificationSubject();
     super.initState();
   }
 
@@ -41,6 +45,8 @@ class _CatalogRestaurantPageState extends State<CatalogRestaurantPage>
     tabController.removeListener(_onChangeTab);
     tabController.dispose();
     searchController.dispose();
+    selectNotificationSubject.close();
+
     super.dispose();
   }
 

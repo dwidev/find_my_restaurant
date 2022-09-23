@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../../../core/services/base_service.dart';
 import '../../../core/services/failure.dart';
 import '../../../core/services/result.dart';
@@ -6,6 +8,7 @@ import '../data/model/customer_review_model.dart';
 import '../data/model/restaurant_model.dart';
 
 abstract class RestaurantService {
+  Future<RestaurantModel?> getRecomendationRestaurant();
   Future<Result<List<RestaurantModel>, Failure>> getListResto();
   Future<Result<RestaurantModel, Failure>> getDetailResto(
     String restoID,
@@ -87,5 +90,21 @@ class RestaurantServiceImpl extends BaseService implements RestaurantService {
           listReview.map((e) => CustomerReviewModel.fromMap(e)).toList();
       return Ok(list);
     });
+  }
+
+  /// function for get random restaurant
+  @override
+  Future<RestaurantModel?> getRecomendationRestaurant() async {
+    final request = await getListResto();
+
+    return request.capture(
+      ok: (data) {
+        final randomIndex = Random().nextInt(data.length);
+        return data[randomIndex];
+      },
+      err: (err) {
+        return null;
+      },
+    );
   }
 }

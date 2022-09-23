@@ -11,7 +11,7 @@ class CatalogRestaurantTitleWidget extends StatelessWidget {
   }) : super(key: key);
 
   void _goToProfile(BuildContext context) {
-    context.push(page: const UserProfilePage());
+    Navigation.intent(UserSettingsPage.routeName);
   }
 
   @override

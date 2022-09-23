@@ -71,13 +71,16 @@ class CatalogRestoView extends StatelessWidget {
               onPressed: (String id) {
                 FocusManager.instance.primaryFocus?.unfocus();
                 context.read<DetailRestoProvider>().getDetailResto(id);
-                context.push(
-                  page: DetailRestaurantPage(
-                    restoId: restaurantModel.id,
-                    image: "$largeResolution${restaurantModel.pictureId}",
-                    heroTag: heroTag,
-                    distance: restaurantModel.distance,
-                  ),
+                final args = DetailRestaurantPageArgs(
+                  restoId: restaurantModel.id,
+                  heroTag: heroTag,
+                  image: "$largeResolution${restaurantModel.pictureId}",
+                  distance: restaurantModel.distance,
+                );
+
+                Navigation.intentWithData(
+                  DetailRestaurantPage.routeName,
+                  args,
                 );
               },
             );

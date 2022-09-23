@@ -2,6 +2,7 @@ import '../../../core/core.dart';
 import '../../restaurant/pages/catalog_restaurant_page.dart';
 
 class SplashPage extends StatefulWidget {
+  static const routeName = "SplashPage";
   const SplashPage({super.key});
 
   @override
@@ -12,7 +13,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
-      context.pushReplacement(page: const CatalogRestaurantPage());
+      Navigation.intent(CatalogRestaurantPage.routeName);
     });
     super.initState();
   }

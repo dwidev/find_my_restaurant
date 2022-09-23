@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:find_my_restaurant/core/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'core/core.dart';
+import 'core/theme/theme_provider.dart';
 import 'features/restaurant/providers/catalog_provider.dart';
 import 'features/restaurant/providers/detail_resto_provider.dart';
 import 'features/restaurant/services/restaurant_service.dart';
 import 'features/splash/page/splash_page.dart';
 import 'features/user/preferences/user_preferences.dart';
+import 'features/user/providers/user_notification_provider.dart';
 import 'features/user/providers/user_provider.dart';
 import 'features/user/service/user_service.dart';
 
@@ -49,16 +50,28 @@ class RestaurantApp extends StatelessWidget {
             ),
           );
         }),
+        ChangeNotifierProvider(
+          create: (context) {
+            return UserNotificationProvider(
+              restaurantService: RestaurantServiceImpl(
+                client: Dio(),
+                userPreference: UserPreferenceImpl(),
+              ),
+            );
+          },
+        ),
       ],
       builder: (context, child) {
         return Consumer<ThemeProvider>(
           builder: (context, theme, child) {
             return MaterialApp(
+              navigatorKey: navigatorKey,
               title: "Find My Restaurant",
               darkTheme: darkTheme,
               theme: theme.currentTheme,
               themeMode: ThemeMode.system,
-              home: const SplashPage(),
+              initialRoute: SplashPage.routeName,
+              routes: Navigation.routes,
             );
           },
         );

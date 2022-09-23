@@ -1,16 +1,21 @@
-import 'package:find_my_restaurant/core/theme/theme_provider.dart';
+import 'dart:io';
+
 import 'package:provider/provider.dart';
 
 import '../../../core/core.dart';
+import '../../../core/theme/theme_provider.dart';
+import '../providers/user_notification_provider.dart';
 
-class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+class UserSettingsPage extends StatefulWidget {
+  static const routeName = "UserSettingsPage";
+
+  const UserSettingsPage({Key? key}) : super(key: key);
 
   @override
-  State<UserProfilePage> createState() => _UserProfilePageState();
+  State<UserSettingsPage> createState() => _UserSettingsPageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
+class _UserSettingsPageState extends State<UserSettingsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = context.watch<ThemeProvider>();
@@ -44,9 +49,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ],
                   ),
                 ),
-                Switch(
-                  value: true,
-                  onChanged: (value) {},
+                Consumer<UserNotificationProvider>(
+                  builder: (context, prov, child) {
+                    return Switch(
+                      value: prov.isRecomend,
+                      onChanged: (value) {
+                        if (Platform.isAndroid) {
+                          prov.setRecomendationRestaurant(value);
+                        } else {
+                          context.showSnackbar(
+                            "Sobat finds sabarya fitur ini akan segera tayang di IOS",
+                          );
+                        }
+                      },
+                    );
+                  },
                 ),
               ],
             ),

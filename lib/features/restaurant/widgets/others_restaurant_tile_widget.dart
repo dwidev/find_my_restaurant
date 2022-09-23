@@ -6,10 +6,12 @@ import '../data/model/restaurant_model.dart';
 class OthersRestaurantTileWidget extends StatelessWidget {
   const OthersRestaurantTileWidget({
     Key? key,
+    required this.heroTag,
     required this.restaurantModel,
     required this.onPressed,
   }) : super(key: key);
 
+  final String heroTag;
   final RestaurantModel restaurantModel;
   final VoidCallback onPressed;
 
@@ -18,7 +20,7 @@ class OthersRestaurantTileWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Hero(
-        tag: "others-detail-${restaurantModel.id}",
+        tag: heroTag,
         child: Container(
           width: 100,
           height: 100,

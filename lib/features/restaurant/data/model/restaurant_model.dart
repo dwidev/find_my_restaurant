@@ -51,7 +51,7 @@ class RestaurantModel {
     if (map['distance'] != null) {
       distance = map['distance'];
     } else {
-      distance = "${Random().nextInt(10) + 3}  km";
+      distance = "${Random().nextInt(10) + 3} km";
     }
 
     final isFamous = (map['rating']?.toDouble() ?? 0.0) > 4;

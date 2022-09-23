@@ -7,6 +7,8 @@ import '../data/model/restaurant_model.dart';
 import '../providers/detail_resto_provider.dart';
 
 class CustomerReviewPage extends StatefulWidget {
+  static const routeName = "CustomerReviewPage";
+
   const CustomerReviewPage({
     Key? key,
     required this.restaurantModel,
