@@ -396,9 +396,9 @@ class DetailRestaurantPage extends StatelessWidget {
                     RestoErrorWidget(
                       failure: failure,
                       onRetry: () {
-                        context.read<DetailRestoProvider>().getDetailResto(
-                              restoId,
-                            );
+                        context
+                            .read<DetailRestoProvider>()
+                            .getDetailResto(restoId, withNotify: true);
                       },
                     ),
                   },

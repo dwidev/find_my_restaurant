@@ -17,11 +17,13 @@ class FavoriteRestoView extends StatelessWidget {
     return Consumer<UserProvider>(
       builder: (context, value, child) {
         if (value.isError) {
-          return RestoErrorWidget(
-            failure: value.errorFailure,
-            onRetry: () {
-              value.getFavoriteRestaurant();
-            },
+          return SingleChildScrollView(
+            child: RestoErrorWidget(
+              failure: value.errorFailure,
+              onRetry: () {
+                value.getFavoriteRestaurant();
+              },
+            ),
           );
         }
 

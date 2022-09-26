@@ -54,12 +54,14 @@ class RestaurantTileWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        restaurantModel.name,
-                        style: context.textTheme.subtitle1?.copyWith(
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Text(
+                          restaurantModel.name,
+                          style: context.textTheme.subtitle1?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.clip,
                         ),
-                        overflow: TextOverflow.clip,
                       ),
                       if (restaurantModel.isFamous)
                         const RestaurantBadgeWidget(
